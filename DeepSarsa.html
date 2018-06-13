@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Grid Game with DeepSarsa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="grid.css" />
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="utils.js"></script>
+  <script src="environment.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.2"></script>
+  <script src="replay.js"></script>
+  <script src="deep_sarsa.js"></script>
+  <script src="render.js"></script>
+</head>
+<body>
+    
+  <h1 align="center">Deep Sarsa</h1>	
+  <div>
+    <div class="container" name="help">
+      <span class="margin"><div class="margin green pixel"></div>Player</span>
+      <span class="margin"><div class="margin yellow pixel"></div>Goal</span>
+      <span class="margin"><div class="margin red pixel"></div>Obstacle</span>
+    </div>
+    <div class="canvas background">
+    </div>
+    <h3 align="center" id="eps">epsilon: 1.0</h3>
+    <div class="plot">
+    </div>
+    <div class="container">
+      <div class="button" id="left">left</div>
+      <div class="button" id="down">down</div>
+      <div class="button" id="up">up</div>
+      <div class="button" id="right">right</div>
+    </div>
+    <div class="container">
+      <span>refresh rate: <input type="range" min="50" max="1000" value="100" onchange="changeRefreshRate(this.value)"/></span>
+    </div>
+    <div class="container">
+      <textarea id="log"></textarea>
+    </div>
+    
+  </div>
+  
+  <script>
+  var color_classes = ['background pixel', 'red pixel', 'yellow pixel', 'green pixel']
+  var refresh_rate = 100;
+  // logger
+  var log_area = document.getElementById("log")
+  var log = []
+
+  var width = 4;
+  var height = 4;
+  var num_enemies = getRandomSubarray([1,2,3], 1);
+
+  function changeRefreshRate(val) {
+    refresh_rate = val;
+  }
+
+  var agent = new DeepSarsaAgent(width, height);
+  var locs = getLocations(2 + num_enemies, width, height)
+
+  train(agent, width, height, num_enemies, locs) //학습용
+  viewModel(agent, locs) // 보여주기
+  </script>
+</body>
+</html>

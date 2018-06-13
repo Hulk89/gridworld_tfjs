@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Grid Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="grid.css" />
+  <script src="https://d3js.org/d3-selection.v1.js"></script>
+  <script src="utils.js"></script>
+  <script src="environment.js"></script>
+</head>
+<body>
+    
+  <h1 align="center">Grid Game</h1>	
+  <div>
+    <div class="container" name="help">
+      <span class="margin"><div class="margin green pixel"></div>Player</span>
+      <span class="margin"><div class="margin yellow pixel"></div>Goal</span>
+      <span class="margin"><div class="margin red pixel"></div>Obstacle</span>
+    </div>
+    <div class="canvas background">
+    </div>
+    <div class="container">
+      <h3 id="result-board">progress..</h3>
+    </div>
+    <div class="container">
+        <div class="button" id="left">left</div>
+        <div class="button" id="down">down</div>
+        <div class="button" id="up">up</div>
+        <div class="button" id="right">right</div>
+      </div>
+  </div>
+  
+  <script>
+  var color_classes = ['background pixel', 'red pixel', 'yellow pixel', 'green pixel']
+  var locs = getLocations(2+3,4,4)
+  var env = new Environment(4, 4, 3, locs)
+  var data = env.data
+
+  var canvas = d3.selectAll(".canvas")
+
+  canvas.selectAll("div")
+      .data(data)
+      .enter()
+      .append("div")
+      .attr('class', function(d) {
+        return 'raw'
+      })
+        .selectAll("div")
+        .data(d => d)
+        .enter()
+        .append('div')
+        .attr("class", function(d) {
+          return color_classes[d]
+        })
+
+
+  function draw(data) {
+    var canvas = d3.selectAll(".canvas")
+
+    canvas.selectAll(".raw")
+        .data(data)
+          .selectAll(".pixel")
+          .data(d => d)
+          .attr("class", function(d) {
+            return color_classes[d]
+          })
+  }
+
+
+  document.body.addEventListener('keydown', function(e) {
+    var keyCode = e.keyCode;
+    var action;
+    if (keyCode>36 && keyCode < 41){
+      if(keyCode==37) {
+        action = "left"
+      } else if(keyCode==38) {
+        action = "up"
+      } else if(keyCode==39) {
+        action = "right"
+      } else if(keyCode==40){
+        action = "down"
+      }
+      var button = document.getElementById(action)
+      button.classList.add("selected")
+      var res = env.step(action)
+      
+      data = res["state"]
+      var reward = res["reward"]
+      var done = res["done"]
+      document.getElementById("result-board").innerHTML = "reward: " + reward
+      draw(data)
+
+      if (done) {
+        env.initializeGame()
+      }
+    }
+  });
+  
+  document.body.addEventListener('keyup', function(e) {
+    var buttons = document.getElementsByClassName("button")
+    for( var i=0 ; i< 4 ; i++ ){
+      buttons[i].classList.remove("selected")
+    }
+  });
+ 
+  </script>
+</body>
+</html>

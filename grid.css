@@ -1,0 +1,66 @@
+/* Environment */
+.canvas {
+  width: 64px;
+  height: 64px;
+  
+  margin: 0 auto;
+}
+
+.pixel {
+  width: 14px;
+  height: 14px;
+  float: left;
+  stroke-width: 1;
+}
+
+.red {
+  background-color: #ee0000;
+  border: 1px solid black;
+}
+.green {
+  background-color: #00ee00;
+  border: 1px solid black;
+}
+.yellow {
+  background-color: #ffb800;
+  border: 1px solid black;
+}
+
+.background {
+  background-color: #e2e2e2;
+  border: 1px solid black;
+}
+.container {
+  display: flex; 
+  justify-content: center;
+}
+/* probability plot */
+.plot {
+  width: 256px;
+  height: 32px;
+  margin: 0 auto;
+}
+/* Button */
+.button {
+  width: 64px;
+  height: 30px;
+  line-height:30px;
+  background-color: #eeeeee;
+  text-align: center;
+  vertical-align: middle;
+  stroke-width: 1;
+}
+.button.selected {
+  background-color: #ee7373;
+}
+/* Log */
+#log {
+  width: 256px; 
+  height: 90px; 
+  resize: none;
+}
+
+/* margin */
+.margin {
+  margin: 5px;
+}
