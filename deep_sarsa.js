@@ -36,10 +36,10 @@ function make_model(lr) {
 
 class DeepSarsaAgent {
     constructor(width, height) {
-        this.discount_factor = 0.99
+        this.discount_factor = 0.9
         this.learning_rate = 0.001
         
-        this.epsilon_decay = 0.9999
+        this.epsilon_decay = 0.9998
         this.epsilon_min = 0.01
         this.epsilon = 1.0
         //////////////make model////////////////
