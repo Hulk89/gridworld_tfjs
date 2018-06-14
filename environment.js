@@ -28,7 +28,7 @@ class Environment {
     //reward
     this.gameover_reward = -2
     this.finish_reward = 10
-    this.time_clock_reward = 0.01
+    this.step_reward = -0.01
     this.time_over_reward = -2
     
     this.locs = locs;
@@ -123,7 +123,7 @@ class Environment {
     }
     /* next frame */
     this.frame += 1
-    return this.time_clock_reward
+    return this.step_reward
   }
 
   step(action) {

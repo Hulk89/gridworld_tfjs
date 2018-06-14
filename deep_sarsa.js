@@ -69,7 +69,7 @@ class DeepSarsaAgent {
         if (Math.random() <= this.epsilon) {
             var actions = [0,0,0,0]
             actions[this.get_random_action()] = 1
-            return actions
+            return {type: "random", actions: actions}
         }
         else {
             var input_data = makeInput(state)
@@ -81,7 +81,7 @@ class DeepSarsaAgent {
             
             input_data.dispose()
             result.dispose()
-            return actions
+            return {type: "network_output", actions: actions}
         }
     }
     async train_model(state, action, reward, next_state, next_action, done) {
@@ -153,7 +153,7 @@ async function train(agent, width, height, num_enemies, locs) {
       var next_state;
       var done = false;
       var reward = 0;
-      
+      var score = 0;
   
       while (!done) {
         action = await agent.get_action(state)
@@ -168,11 +168,12 @@ async function train(agent, width, height, num_enemies, locs) {
         await agent.train_model(state, action, reward, next_state, next_action, done)
         
         state = [arrayClone(data)]
-  
+        score += reward
+
         await tf.nextFrame();
       }
-      console.log(i_ep + " ended.")
-      log_area.innerHTML += i_ep + "th episode ended." + "\n"
+      
+      log_area.innerHTML += i_ep + "th episode ended. score: " + score.toFixed(3) + "\n"
       log_area.scrollTop = log_area.scrollHeight;
     }
     //save_result = await model.save('localstorage://my-model');

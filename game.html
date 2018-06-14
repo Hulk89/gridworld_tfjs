@@ -34,8 +34,11 @@
   
   <script>
   var color_classes = ['background pixel', 'red pixel', 'yellow pixel', 'green pixel']
-  var locs = getLocations(2+3,4,4)
-  var env = new Environment(4, 4, 3, locs)
+  var width = 4
+  var height = 4
+  var num_enemies = getRandomSubarray([1,2,3], 1)
+  var locs = getLocations(2+num_enemies,width,height)
+  var env = new Environment(width, height, num_enemies, locs)
   var data = env.data
 
   var canvas = d3.selectAll(".canvas")

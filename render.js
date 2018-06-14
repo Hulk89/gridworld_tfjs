@@ -49,8 +49,13 @@ function initializePlot(actions) {
   console.log(actions)
 }
 
-function plot(actions) {
-  
+function plot(actions, action_type) {
+  var color
+  if (action_type == "random") {
+    color = "red"
+  } else {
+    color = "green"
+  }
   var svg = d3.select(".plot")
               .select("svg")
                 
@@ -62,7 +67,7 @@ function plot(actions) {
           y:      function(d, i) {return 32 - Math.round(d*32)},
           width:  64-2,
           height: function(d, i) {return Math.round(d*32);},
-          fill:   'green'
+          fill:   color
         })
 }
 
@@ -88,7 +93,10 @@ function viewModel(agent, locs) {
 
   async function update() {
     input_data = [arrayClone(data)]
-    actions = await agent.get_actions(input_data)
+    var result = await agent.get_actions(input_data)
+    actions = result.actions
+    var action_type = result.type
+
     var action = argMax(actions)
 
     var res = venv.step(translateAction(action))
@@ -98,7 +106,7 @@ function viewModel(agent, locs) {
 
     //UI update
     draw(data)
-    plot(actions)
+    plot(actions, action_type)
     // button들 조작..
     var buttons = document.getElementsByClassName("button")
     for( var i=0 ; i< 4 ; i++ ){

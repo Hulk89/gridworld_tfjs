@@ -85,7 +85,7 @@ class DQNAgent {
         if (Math.random() <= this.epsilon) {
             var actions = [0,0,0,0]
             actions[this.get_random_action()] = 1
-            return actions
+            return {type: "random", actions: actions}
         }
         else {
             var input_data = makeInput(state)
@@ -98,7 +98,7 @@ class DQNAgent {
             //console.log("after softmax: " + actions)
             input_data.dispose()
             result.dispose()
-            return actions
+            return {type: "network_output", actions: actions}
         }
     }
     async train_model() {
@@ -192,11 +192,11 @@ class DQNAgent {
       env.initializeGame();
       data = env.data
       var state = [arrayClone(data)]
-      var result, action, res
+      var action, res
       var next_state;
       var done = false;
       var reward = 0;
-      
+      var score = 0;
   
       while (!done) {
         action = await agent.get_action(state)
@@ -213,15 +213,14 @@ class DQNAgent {
           await agent.train_model()
         }
         state = [arrayClone(data)]
-  
+        score += reward
         if (done) {
           agent.update_target_model()
         }
         await tf.nextFrame();
       }
-      //console.log(i_ep + " ended.")
-      //log_area.innerHTML += i_ep + "th episode ended." + "\n"
-      //log_area.scrollTop = log_area.scrollHeight;
+      log_area.innerHTML += i_ep + "th episode ended. score: " + score.toFixed(3) + "\n"
+      log_area.scrollTop = log_area.scrollHeight;
     }
     //save_result = await model.save('localstorage://my-model');
   }
