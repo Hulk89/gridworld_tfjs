@@ -12,4 +12,4 @@
   * deep sarsa training. Training starts with loading. 
 * DQN.html
   * deep q network training. Training starts after few iteration.
-  * It cannot converge
+  * It converges very slowly.
