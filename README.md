@@ -1,6 +1,6 @@
 # gridworld_tfjs
 ## overview
-![screenshot](https://user-images.githubusercontent.com/4549272/41355211-e8adace4-6f5b-11e8-9ca1-e85c6f74df78.png)
+![deepsarsa](https://user-images.githubusercontent.com/4549272/41519367-a6f4c7a6-7302-11e8-8af4-875daf7059fa.gif)
 
 ## usage
 
